@@ -1,0 +1,12 @@
+@import '../../../styles/settings.scss';
+
+.root {
+  height: 100vh;
+  background-color: green;
+
+  .logo {
+    margin: 0 auto;
+    font-size: $base-size * 4;
+    color: $text-color-white;
+  }
+}
