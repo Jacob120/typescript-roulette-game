@@ -1,0 +1,24 @@
+@import '../../../styles/settings.scss';
+
+// .logo {
+//   margin: 0 auto;
+//   font-size: $base-size * 4;
+//   color: $text-color-white;
+//   text-shadow: rgb(1, 29, 1) 5px 5px 10px;
+//   font-style: oblique;
+// }
+
+h1 {
+  font-size: 72px;
+  font-weight: bold;
+  font-family: $logo-font;
+  letter-spacing: 3px;
+  background: linear-gradient(to bottom, #f2f2f2, #ddd);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  -webkit-text-stroke: 1px #dadada;
+  text-shadow: 10px 4px 4px rgba(0, 0, 0, 0.3),
+    -2px -2px 4px rgba(255, 255, 255, 0.527);
+}

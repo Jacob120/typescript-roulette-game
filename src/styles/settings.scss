@@ -1,18 +1,24 @@
 // general-settings
 $base-size: 16px;
 
+// fonts
+$main-font: 'Poppins', sans-serif;
+$logo-font: 'Playfair Display', serif;
+
 // general-colors
-$main-color: #445f84;
+$main-color: #1b884c;
 $bg-white: #ffffff;
 $bg-grey: rgb(238, 238, 238);
 
 // text-colors
 $text-color-white: #ffffff;
 $text-color-black: #000000;
-$text-color-main: #445f84;
-$price-color-new: #ef837b;
-$price-color-old: #ccc;
-$warning-text-color: #ef837b;
+$text-color-main: #2cd835;
+$text-color-gold: #f2c94c;
+
+// pulse colors
+
+$pulse-green: #35ec10;
 
 // transition
 $transition: all 0.5s ease;
