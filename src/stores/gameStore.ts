@@ -1,4 +1,4 @@
-import { makeAutoObservable } from 'mobx';
+import { makeAutoObservable, action } from 'mobx';
 
 type Bet = {
   type: 'number' | 'dozen' | 'half' | 'row';
@@ -18,9 +18,13 @@ class GameStore {
   bets: Bet[] = [];
   playerMoney: number = 10000;
   winAmount: number | null = null;
+  resultsHistory: number[] = [];
+  winningNumber: number | null = null;
 
   constructor() {
-    makeAutoObservable(this);
+    makeAutoObservable(this, {
+      spinRoulette: action.bound,
+    });
   }
 
   addNumber(number: number) {
@@ -109,9 +113,24 @@ class GameStore {
   }
 
   getColorByValue(value: number): string {
-    const index = this.coinValues.findIndex((coinValue) => value >= coinValue);
+    // Find the highest coin value
+    const index = this.coinValues
+      .slice()
+      .reverse()
+      .findIndex((coinValue) => value >= coinValue);
 
-    return this.coinColors[index >= 0 ? index : this.coinColors.length];
+    return this.coinColors[
+      this.coinColors.length - 1 - (index >= 0 ? index : 0)
+    ];
+  }
+
+  spinRoulette() {
+    const winningNumber = Math.floor(Math.random() * 37);
+    this.resultsHistory = [winningNumber, ...this.resultsHistory.slice(0, 4)];
+    const { winStatus, winAmount } = this.checkWinningNumber(winningNumber);
+    this.winAmount = winStatus ? winAmount : null;
+
+    return (this.winningNumber = winningNumber);
   }
 
   checkWinningNumber(winningNumber: number) {

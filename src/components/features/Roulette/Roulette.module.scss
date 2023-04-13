@@ -1,5 +1,64 @@
+@import '../../../styles/settings.scss';
+
 .root {
-  margin-left: 40px;
+  display: flex;
+  justify-content: start;
+  gap: 2rem;
+  margin-left: 2rem;
   color: white;
   font-size: 20px;
+  width: 100%;
+  align-self: flex-end;
+  align-items: flex-end;
+}
+
+.win {
+  font-size: $base-size * 1.5;
+  font-weight: 600;
+  width: 200px;
+  background: $coin-selector-bg;
+  color: $text-color-gold;
+  padding: 10px 20px;
+  border-radius: 20px;
+
+  span {
+    color: $text-color-white;
+  }
+}
+
+.message {
+  position: absolute;
+  bottom: 200px;
+  right: 100px;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.5s ease;
+  font-size: $base-size * 2;
+  font-weight: 600;
+  color: $text-color-green;
+  transform: translateY(0);
+  text-shadow: 5px 4px 4px rgba(0, 0, 0, 0.3);
+}
+
+.showMessage {
+  animation: slideUpFadeOut 2s forwards;
+}
+
+@keyframes slideUpFadeOut {
+  0% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  10% {
+    opacity: 1;
+    transform: translateY(-20px);
+  }
+  90% {
+    opacity: 1;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
 }

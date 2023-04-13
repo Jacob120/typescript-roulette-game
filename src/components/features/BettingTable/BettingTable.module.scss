@@ -204,3 +204,11 @@
 
   z-index: 50;
 }
+
+.winningNumber {
+  position: absolute;
+  padding: 25px;
+  border: 10px solid $main-color;
+  border-radius: 50%;
+  box-shadow: 0 0 25px rgb(108, 231, 70);
+}

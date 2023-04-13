@@ -8,9 +8,11 @@ import BottomBar from '../../layout/BottomBar/BottomBar';
 const GameTable: React.FC = () => {
   return (
     <div className={styles.root}>
-      <TopBar isListVisible={true} />
-      <BettingTable />
-      <BottomBar />
+      <div className='container'>
+        <TopBar isListVisible={true} />
+        <BettingTable />
+        <BottomBar />
+      </div>
     </div>
   );
 };

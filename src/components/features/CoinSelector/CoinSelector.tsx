@@ -23,12 +23,6 @@ const CoinSelector: React.FC = observer(() => {
           />
         ))}
       </div>
-      <div className={styles.bottom_bar}>
-        <div className={styles.totalBet}>
-          Total bet: ${gameStore.getTotalBetAmount()}
-        </div>
-        <div className={styles.totalBet}>Balance: ${gameStore.playerMoney}</div>
-      </div>
     </div>
   );
 });

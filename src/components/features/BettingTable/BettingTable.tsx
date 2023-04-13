@@ -6,31 +6,31 @@ import Coin from '../../common/buttons/Coin/Coin';
 import coinStyles from '../../common/buttons/Coin/Coin.module.scss';
 
 const BettingTable: React.FC = observer(() => {
+  const winningNumber = gameStore.winningNumber;
+
   const onDozenClick = (dozen: number) => {
     gameStore.addDozen(dozen);
     gameStore.placeDozenBet(dozen);
+    gameStore.winningNumber = null;
   };
 
   const onHalfClick = (half: string) => {
     gameStore.addHalf(half);
     gameStore.placeHalfBet(half);
+    gameStore.winningNumber = null;
   };
 
   const onRowClick = (row: number) => {
     gameStore.addRow(row);
     gameStore.placeRowBet(row);
+    gameStore.winningNumber = null;
   };
 
   const onNumberClick = (number: number) => {
     gameStore.addNumber(number);
     gameStore.placeNumberBet(number);
+    gameStore.winningNumber = null;
   };
-
-  // console.log('Selected numbers:', gameStore.selectedNumbers);
-  // console.log('Selected dozens:', gameStore.selectedDozens);
-  // console.log('Selected halves:', gameStore.selectedHalves);
-  // console.log('Selected rows:', gameStore.selectedRows);
-  // console.log('Selected bets:', gameStore.bets);
 
   const renderBetCoin = (
     type: 'number' | 'dozen' | 'half' | 'row',
@@ -66,11 +66,6 @@ const BettingTable: React.FC = observer(() => {
         const number = (col - 1) * 3 + row;
         const isEven = number % 2 === 0;
 
-        // Get the bet information for this cell
-        const bet = gameStore.bets.find(
-          (bet) => bet.type === 'number' && bet.value === number
-        );
-
         cells.push(
           <div
             key={number}
@@ -80,16 +75,10 @@ const BettingTable: React.FC = observer(() => {
             style={{ gridColumn: col, gridRow: 4 - row }}
             onClick={() => onNumberClick(number)}
           >
-            {bet && (
-              <div className={styles.betCoin}>
-                <Coin
-                  value={bet.amount}
-                  color={bet.color}
-                  handleClick={() => {}}
-                  customClass={coinStyles.smallCoin}
-                />
-              </div>
+            {winningNumber === number && (
+              <div className={styles.winningNumber} />
             )}
+            {renderBetCoin('number', number)}
             {number}
           </div>
         );
@@ -104,7 +93,7 @@ const BettingTable: React.FC = observer(() => {
       <div className={styles.wrapper}>
         <div className={styles.board}>
           <div className={styles.zeroCell} onClick={() => onNumberClick(0)}>
-            0
+            {renderBetCoin('number', 0)}0
           </div>
           <div className={styles.board_cells}>
             {renderNumberCells()}
