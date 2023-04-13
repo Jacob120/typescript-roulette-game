@@ -18,7 +18,7 @@ const Home = () => {
 
   return (
     <div className={styles.root} style={{ opacity }}>
-      <TopBar />
+      <TopBar isListVisible={false} />
       <div className={styles.wrapper}>
         <button className={styles.button_start} onClick={handleStartGame}>
           Start Game

@@ -1,7 +1,8 @@
+@import '../../../styles/settings.scss';
+
 .root {
   height: 100vh;
   background-image: url('../../../../public/assets/images/table-textures/table-texture-1.jpg');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
+  user-select: none;
+  overflow: hidden;
 }

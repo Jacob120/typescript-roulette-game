@@ -1,0 +1,83 @@
+@import '../../../../styles/settings.scss';
+
+.dashed_circle {
+  position: relative;
+  display: flex;
+  margin: 30px auto;
+  width: 100px;
+  height: 100px;
+  border: 13px dashed black;
+  background-color: black;
+  border-radius: 50%;
+  line-height: 100px;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  z-index: 22;
+  transition: $transition;
+  font-size: $base-size * 1.5;
+  font-weight: 600;
+  cursor: pointer;
+
+  &.selectedCoin {
+    transform: scale(1.2);
+    box-shadow: 5px 5px 5px black;
+
+    &.smallCoin {
+      transform: scale(0.6);
+      box-shadow: 5px 5px 5px black;
+    }
+  }
+}
+
+.dashed_circle:after {
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: 5px;
+  border: 3px dashed white;
+  border-radius: 50%;
+  background: black;
+  content: '';
+}
+
+.dashed_circle:hover {
+  transform: scale(1.2);
+  box-shadow: 5px 5px 5px black;
+}
+
+.dashed_circle:active {
+  transform: scale(1.4);
+}
+
+.red {
+  border-color: rgb(185, 32, 32);
+}
+
+.blue {
+  border-color: rgb(32, 185, 185);
+}
+
+.green {
+  border-color: rgb(32, 185, 32);
+}
+
+.yellow {
+  border-color: rgb(185, 185, 32);
+}
+
+.purple {
+  border-color: rgb(185, 32, 185);
+}
+
+.smallCoin {
+  transform: scale(0.6);
+  box-shadow: 5px 5px 5px black;
+
+  &:hover {
+    transform: scale(0.6);
+  }
+}

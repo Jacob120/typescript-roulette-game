@@ -1,10 +1,19 @@
 import React from 'react';
 import Logo from '../../common/Logo/Logo';
+import PayoutsList from '../../common/PayoutsList/PayoutsList';
+import styles from './TopBar.module.scss';
 
-const TopBar: React.FC = () => {
+interface TopBarProps {
+  isListVisible: boolean;
+}
+
+const TopBar: React.FC<TopBarProps> = ({ isListVisible }) => {
   return (
     <div className='container'>
-      <Logo />
+      <div className={styles.wrapper}>
+        <Logo />
+        {isListVisible && <PayoutsList />}
+      </div>
     </div>
   );
 };

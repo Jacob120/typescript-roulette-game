@@ -1,0 +1,28 @@
+@import '../../../styles/settings.scss';
+
+.root {
+  width: 240px;
+  color: $text-color-white;
+  font-size: $base-size;
+  font-weight: bold;
+  position: fixed;
+  right: $base-size * 2;
+  top: 2rem;
+}
+
+.wrapper {
+  margin-top: 10px;
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.3s ease-in-out;
+  background-color: $button-color-green;
+  border-radius: 10px;
+}
+
+.visible {
+  max-height: 450px;
+}
+
+.hidden {
+  max-height: 0;
+}
