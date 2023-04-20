@@ -27,14 +27,14 @@ const RouletteWheel: React.FC<RouletteWheelProps> = ({
   const singleRotationDegree = 360 / totalNumbers;
   const ballRef = useRef<Sprite | null>(null);
 
-  const getRouletteIndexFromNumber = (number: number) => {
+  const getRouletteIndexFromNumber = useCallback((number: number) => {
     return rouletteWheelNumbers.indexOf(number);
-  };
+  }, []);
 
-  const getRotationFromNumber = (number: number) => {
+  const getRotationFromNumber = useCallback((number: number) => {
     const index = getRouletteIndexFromNumber(number);
     return singleRotationDegree * index;
-  };
+  }, []);
 
   // register the plugin
   gsap.registerPlugin(PixiPlugin);
