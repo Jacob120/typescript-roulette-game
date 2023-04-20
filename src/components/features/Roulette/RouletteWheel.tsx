@@ -119,11 +119,13 @@ const RouletteWheel: React.FC<RouletteWheelProps> = ({
       });
 
       bounceTimeline
-        .to(ball.scale, { x: 0.1, y: 0.1, duration: 0.3 })
+        .to(ball.scale, { x: 0.1, y: 0.1, duration: 0.4 })
+        .to(ball.scale, { x: 0.08, y: 0.08, duration: 0.1 })
         .to(ball.scale, { x: 0.12, y: 0.12, duration: 0.4 })
+        .to(ball.scale, { x: 0.08, y: 0.08, duration: 0.1 })
         .to(ball.scale, { x: 0.1, y: 0.1, duration: 0.3 })
+        .to(ball.scale, { x: 0.08, y: 0.08, duration: 0.1 })
         .to(ball.scale, { x: 0.1, y: 0.1, duration: 0.3 })
-        .to(ball.scale, { x: 0.09, y: 0.09, duration: 0.3 })
         .to(ball.scale, { x: 0.08, y: 0.08, duration: 0.1 });
     },
     [getRotationFromNumber]
