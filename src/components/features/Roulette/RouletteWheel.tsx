@@ -17,7 +17,6 @@ const RouletteWheel: React.FC<RouletteWheelProps> = ({
   winningNumber,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const shadowRef = useRef<Sprite | null>(null);
 
   const rouletteWheelNumbers = [
     0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10, 5,
@@ -154,7 +153,7 @@ const RouletteWheel: React.FC<RouletteWheelProps> = ({
       }
       spinningWheel.addChild(imgArr[1], imgArr[2], imgArr[3], imgArr[4]);
       stationaryWheel.addChild(imgArr[0]);
-      console.log('imgArr', imgArr[0].zIndex);
+
       const ball = new Sprite(textures['ball']);
       ball.anchor.set(4.7);
       ball.scale.set(0.08);
@@ -170,7 +169,7 @@ const RouletteWheel: React.FC<RouletteWheelProps> = ({
     return () => {
       app.destroy(true);
     };
-  }, [width, height, winningNumber]);
+  }, [width, height, winningNumber, spinWheel]);
 
   return <canvas ref={canvasRef} />;
 };
