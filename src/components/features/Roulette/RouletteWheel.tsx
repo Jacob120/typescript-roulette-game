@@ -4,7 +4,6 @@ import * as PIXI from 'pixi.js';
 import { assetsManager } from './assets';
 import { gsap } from 'gsap';
 import { PixiPlugin } from 'gsap/PixiPlugin';
-import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
 
 interface RouletteWheelProps {
   width: number;
@@ -39,15 +38,44 @@ const RouletteWheel: React.FC<RouletteWheelProps> = ({
 
   // register the plugin
   gsap.registerPlugin(PixiPlugin);
-  gsap.registerPlugin(MotionPathPlugin);
 
   // give the plugin a reference to the PIXI object
   PixiPlugin.registerPIXI(PIXI);
 
-  const spinWheel = (
+  const changeBallAnchor = (
+    ball: Sprite,
+    targetAnchor: number,
+    duration: number
+  ) => {
+    // Return a promise so we can wait for the animation to finish
+    return new Promise((resolve) => {
+      const startAnchor = ball.anchor.x;
+      let progress = 0;
+      const anchorChangeDuration = duration * 60; // Assuming 60fps
+
+      const changeAnchor = () => {
+        progress += 1;
+        const currentAnchor =
+          startAnchor +
+          (targetAnchor - startAnchor) * (progress / anchorChangeDuration);
+        ball.anchor.set(currentAnchor);
+
+        if (progress < anchorChangeDuration) {
+          requestAnimationFrame(changeAnchor);
+        } else {
+          resolve(null);
+        }
+      };
+
+      changeAnchor();
+    });
+  };
+
+  const spinWheel = async (
     number: number,
     wheel: Container,
-    ballContainer: Container
+    ballContainer: Container,
+    ball: Sprite
   ) => {
     const endRotation = getRotationFromNumber(number) % 360;
     const randomOffset = Math.random() * 360;
@@ -55,7 +83,7 @@ const RouletteWheel: React.FC<RouletteWheelProps> = ({
     const ballRotationDuration = 8;
 
     const wheelEndRotation = endRotation * -1 - 360 * 4 - randomOffset;
-    const ballEndRotation = 360 * 4 - randomOffset + singleRotationDegree * 2;
+    const ballEndRotation = 360 * 4 - randomOffset;
 
     gsap.to(wheel, {
       pixi: { rotation: wheelEndRotation },
@@ -68,6 +96,11 @@ const RouletteWheel: React.FC<RouletteWheelProps> = ({
       duration: ballRotationDuration,
       ease: 'power1.inOut',
     });
+
+    // Change ball anchor during the spin
+    setTimeout(() => {
+      changeBallAnchor(ball, 0.5, 1);
+    }, 6000);
   };
 
   useEffect(() => {
@@ -104,8 +137,8 @@ const RouletteWheel: React.FC<RouletteWheelProps> = ({
         imgArr[i].anchor.set(0.5);
         imgArr[i].position.set(width / 2, height / 2);
       }
-      spinningWheel.addChild(imgArr[1], imgArr[3]);
-      stationaryWheel.addChild(imgArr[0], imgArr[2], imgArr[4]);
+      spinningWheel.addChild(imgArr[1], imgArr[2], imgArr[3], imgArr[4]);
+      stationaryWheel.addChild(imgArr[0]);
       console.log('imgArr', imgArr[0].zIndex);
       const ball = new Sprite(textures['ball']);
       ball.anchor.set(4.7);
@@ -115,9 +148,9 @@ const RouletteWheel: React.FC<RouletteWheelProps> = ({
       ballContainer.addChild(ball);
     };
 
-    loadSprites();
-
-    spinWheel(winningNumber, spinningWheel, ballContainer);
+    loadSprites().then(() => {
+      spinWheel(winningNumber, spinningWheel, ballContainer, ballRef.current!);
+    });
 
     return () => {
       app.destroy(true);
