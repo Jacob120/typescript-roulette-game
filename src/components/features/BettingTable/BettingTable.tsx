@@ -10,13 +10,13 @@ const BettingTable: React.FC = observer(() => {
   const [showWinningNumber, setShowWinningNumber] = useState(false);
 
   useEffect(() => {
-    if (gameStore.winningNumber !== null) {
+    if (winningNumber !== null) {
       setShowWinningNumber(false);
       setTimeout(() => {
         setShowWinningNumber(true);
       }, 13000); // Set your desired delay time in milliseconds
     }
-  }, [gameStore.winningNumber]);
+  }, [winningNumber]);
 
   const onDozenClick = (dozen: number) => {
     gameStore.addDozen(dozen);
