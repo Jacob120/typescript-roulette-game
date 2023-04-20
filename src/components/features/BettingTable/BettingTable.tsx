@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './BettingTable.module.scss';
 import { observer } from 'mobx-react-lite';
 import { gameStore } from '../../../stores/gameStore';
@@ -7,6 +7,16 @@ import coinStyles from '../../common/buttons/Coin/Coin.module.scss';
 
 const BettingTable: React.FC = observer(() => {
   const winningNumber = gameStore.winningNumber;
+  const [showWinningNumber, setShowWinningNumber] = useState(false);
+
+  useEffect(() => {
+    if (gameStore.winningNumber !== null) {
+      setShowWinningNumber(false);
+      setTimeout(() => {
+        setShowWinningNumber(true);
+      }, 13000); // Set your desired delay time in milliseconds
+    }
+  }, [gameStore.winningNumber]);
 
   const onDozenClick = (dozen: number) => {
     gameStore.addDozen(dozen);
@@ -75,9 +85,10 @@ const BettingTable: React.FC = observer(() => {
             style={{ gridColumn: col, gridRow: 4 - row }}
             onClick={() => onNumberClick(number)}
           >
-            {winningNumber === number && (
+            {showWinningNumber && winningNumber === number && (
               <div className={styles.winningNumber} />
             )}
+
             {renderBetCoin('number', number)}
             {number}
           </div>

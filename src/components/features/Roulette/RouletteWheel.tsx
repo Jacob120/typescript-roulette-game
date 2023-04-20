@@ -17,6 +17,7 @@ const RouletteWheel: React.FC<RouletteWheelProps> = ({
   winningNumber,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const shadowRef = useRef<Sprite | null>(null);
 
   const rouletteWheelNumbers = [
     0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10, 5,
@@ -47,22 +48,23 @@ const RouletteWheel: React.FC<RouletteWheelProps> = ({
     targetAnchor: number,
     duration: number
   ) => {
-    // Return a promise so we can wait for the animation to finish
     return new Promise((resolve) => {
       const startAnchor = ball.anchor.x;
-      let progress = 0;
-      const anchorChangeDuration = duration * 60; // Assuming 60fps
+      const startTime = performance.now();
 
       const changeAnchor = () => {
-        progress += 1;
-        const currentAnchor =
-          startAnchor +
-          (targetAnchor - startAnchor) * (progress / anchorChangeDuration);
-        ball.anchor.set(currentAnchor);
+        // Calculate progress and current anchor
+        const currentTime = performance.now();
+        const elapsedTime = (currentTime - startTime) / 1000; // Convert to seconds
+        const progress = elapsedTime / duration;
 
-        if (progress < anchorChangeDuration) {
+        if (progress < 1) {
+          const currentAnchor =
+            startAnchor + (targetAnchor - startAnchor) * progress;
+          ball.anchor.set(currentAnchor);
           requestAnimationFrame(changeAnchor);
         } else {
+          ball.anchor.set(targetAnchor); // Ensure the final anchor value is set
           resolve(null);
         }
       };
@@ -79,8 +81,8 @@ const RouletteWheel: React.FC<RouletteWheelProps> = ({
   ) => {
     const endRotation = getRotationFromNumber(number) % 360;
     const randomOffset = Math.random() * 360;
-    const wheelRotationDuration = 8; // seconds
-    const ballRotationDuration = 8;
+    const wheelRotationDuration = 12; // seconds
+    const ballRotationDuration = 12;
 
     const wheelEndRotation = endRotation * -1 - 360 * 4 - randomOffset;
     const ballEndRotation = 360 * 4 - randomOffset;
@@ -94,13 +96,26 @@ const RouletteWheel: React.FC<RouletteWheelProps> = ({
     gsap.to(ballContainer, {
       pixi: { rotation: ballEndRotation },
       duration: ballRotationDuration,
-      ease: 'power1.inOut',
+      ease: 'power1.out',
     });
 
     // Change ball anchor during the spin
     setTimeout(() => {
       changeBallAnchor(ball, 0.5, 1);
-    }, 6000);
+    }, 8000);
+
+    // Animate bouncing of the ball
+    const bounceTimeline = gsap.timeline({
+      delay: 10,
+    });
+
+    bounceTimeline
+      .to(ball.scale, { x: 0.1, y: 0.1, duration: 0.3 })
+      .to(ball.scale, { x: 0.12, y: 0.12, duration: 0.4 })
+      .to(ball.scale, { x: 0.1, y: 0.1, duration: 0.3 })
+      .to(ball.scale, { x: 0.1, y: 0.1, duration: 0.3 })
+      .to(ball.scale, { x: 0.09, y: 0.09, duration: 0.3 })
+      .to(ball.scale, { x: 0.08, y: 0.08, duration: 0.1 });
   };
 
   useEffect(() => {

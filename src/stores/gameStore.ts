@@ -126,7 +126,11 @@ class GameStore {
 
   spinRoulette() {
     const winningNumber = Math.floor(Math.random() * 37);
-    this.resultsHistory = [winningNumber, ...this.resultsHistory.slice(0, 4)];
+
+    setTimeout(() => {
+      this.resultsHistory = [winningNumber, ...this.resultsHistory.slice(0, 4)];
+    }, 13000);
+
     const { winStatus, winAmount } = this.checkWinningNumber(winningNumber);
     this.winAmount = winStatus ? winAmount : null;
 
