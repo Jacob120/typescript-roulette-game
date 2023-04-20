@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useCallback } from 'react';
+import React, { useRef, useEffect, useCallback, useMemo } from 'react';
 import { Application, Container, Sprite } from 'pixi.js';
 import * as PIXI from 'pixi.js';
 import { assetsManager } from './assets';
@@ -18,10 +18,13 @@ const RouletteWheel: React.FC<RouletteWheelProps> = ({
 }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
-  const rouletteWheelNumbers = [
-    0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10, 5,
-    24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7, 28, 12, 35, 3, 26,
-  ];
+  const rouletteWheelNumbers = useMemo(
+    () => [
+      0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10, 5,
+      24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7, 28, 12, 35, 3, 26,
+    ],
+    []
+  );
 
   const totalNumbers = 37;
   const singleRotationDegree = 360 / totalNumbers;
@@ -39,7 +42,7 @@ const RouletteWheel: React.FC<RouletteWheelProps> = ({
       const index = getRouletteIndexFromNumber(number);
       return singleRotationDegree * index;
     },
-    [singleRotationDegree]
+    [singleRotationDegree, getRouletteIndexFromNumber]
   );
 
   // register the plugin
