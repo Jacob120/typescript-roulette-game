@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useCallback } from 'react';
 import { Application, Container, Sprite } from 'pixi.js';
 import * as PIXI from 'pixi.js';
 import { assetsManager } from './assets';
@@ -72,50 +72,53 @@ const RouletteWheel: React.FC<RouletteWheelProps> = ({
     });
   };
 
-  const spinWheel = async (
-    number: number,
-    wheel: Container,
-    ballContainer: Container,
-    ball: Sprite
-  ) => {
-    const endRotation = getRotationFromNumber(number) % 360;
-    const randomOffset = Math.random() * 360;
-    const wheelRotationDuration = 12; // seconds
-    const ballRotationDuration = 12;
+  const spinWheel = useCallback(
+    async (
+      number: number,
+      wheel: Container,
+      ballContainer: Container,
+      ball: Sprite
+    ) => {
+      const endRotation = getRotationFromNumber(number) % 360;
+      const randomOffset = Math.random() * 360;
+      const wheelRotationDuration = 12; // seconds
+      const ballRotationDuration = 12;
 
-    const wheelEndRotation = endRotation * -1 - 360 * 4 - randomOffset;
-    const ballEndRotation = 360 * 4 - randomOffset;
+      const wheelEndRotation = endRotation * -1 - 360 * 4 - randomOffset;
+      const ballEndRotation = 360 * 4 - randomOffset;
 
-    gsap.to(wheel, {
-      pixi: { rotation: wheelEndRotation },
-      duration: wheelRotationDuration,
-      ease: 'power1.inOut',
-    });
+      gsap.to(wheel, {
+        pixi: { rotation: wheelEndRotation },
+        duration: wheelRotationDuration,
+        ease: 'power1.inOut',
+      });
 
-    gsap.to(ballContainer, {
-      pixi: { rotation: ballEndRotation },
-      duration: ballRotationDuration,
-      ease: 'power1.out',
-    });
+      gsap.to(ballContainer, {
+        pixi: { rotation: ballEndRotation },
+        duration: ballRotationDuration,
+        ease: 'power1.out',
+      });
 
-    // Change ball anchor during the spin
-    setTimeout(() => {
-      changeBallAnchor(ball, 0.5, 1);
-    }, 8000);
+      // Change ball anchor during the spin
+      setTimeout(() => {
+        changeBallAnchor(ball, 0.5, 1);
+      }, 8000);
 
-    // Animate bouncing of the ball
-    const bounceTimeline = gsap.timeline({
-      delay: 10,
-    });
+      // Animate bouncing of the ball
+      const bounceTimeline = gsap.timeline({
+        delay: 10,
+      });
 
-    bounceTimeline
-      .to(ball.scale, { x: 0.1, y: 0.1, duration: 0.3 })
-      .to(ball.scale, { x: 0.12, y: 0.12, duration: 0.4 })
-      .to(ball.scale, { x: 0.1, y: 0.1, duration: 0.3 })
-      .to(ball.scale, { x: 0.1, y: 0.1, duration: 0.3 })
-      .to(ball.scale, { x: 0.09, y: 0.09, duration: 0.3 })
-      .to(ball.scale, { x: 0.08, y: 0.08, duration: 0.1 });
-  };
+      bounceTimeline
+        .to(ball.scale, { x: 0.1, y: 0.1, duration: 0.3 })
+        .to(ball.scale, { x: 0.12, y: 0.12, duration: 0.4 })
+        .to(ball.scale, { x: 0.1, y: 0.1, duration: 0.3 })
+        .to(ball.scale, { x: 0.1, y: 0.1, duration: 0.3 })
+        .to(ball.scale, { x: 0.09, y: 0.09, duration: 0.3 })
+        .to(ball.scale, { x: 0.08, y: 0.08, duration: 0.1 });
+    },
+    []
+  );
 
   useEffect(() => {
     if (!canvasRef.current) return;
