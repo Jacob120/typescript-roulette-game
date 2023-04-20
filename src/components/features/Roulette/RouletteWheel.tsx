@@ -117,7 +117,7 @@ const RouletteWheel: React.FC<RouletteWheelProps> = ({
         .to(ball.scale, { x: 0.09, y: 0.09, duration: 0.3 })
         .to(ball.scale, { x: 0.08, y: 0.08, duration: 0.1 });
     },
-    []
+    [getRotationFromNumber]
   );
 
   useEffect(() => {
