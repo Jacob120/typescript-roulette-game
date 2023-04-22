@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import styles from './Roulette.module.scss';
 import { gameStore } from '../../../stores/gameStore';
 import { observer } from 'mobx-react-lite';
@@ -6,42 +6,56 @@ import SpinButton from '../../common/buttons/SpinButton/SpinButton';
 import ResetButton from '../../common/buttons/ResetButton/ResetButton';
 import RouletteWheel from './RouletteWheel';
 import SoundOptionsButton from '../../common/buttons/SoundOptionsButton/SoundOptionsButton';
-import { useLocation } from 'react-router-dom';
+import MoneyElement from '../../common/MoneyElement/MoneyElement';
 
 const Roulette: React.FC = observer(() => {
-  const location = useLocation();
   const [showResetMessage, setShowResetMessage] = useState(false);
   const [showWinMessage, setShowWinMessage] = useState(false);
   const [showWheel, setShowWheel] = useState(false);
-  const [spinSoundVolume, setSpinSoundVolume] = useState(0.5);
-  const [musicVolume, setMusicVolume] = useState(0.2);
-  const [volume, setVolume] = useState(0.5);
+  const [spinSoundVolume, setSpinSoundVolume] = useState(0.5); // eslint-disable-line
+  const [musicVolume, setMusicVolume] = useState(0.2); // eslint-disable-line
+  const [winSoundVolume, setWinSoundVolume] = useState(0.5); // eslint-disable-line
   const [displayedWinAmount, setDisplayedWinAmount] = useState<number | null>(
     null
   );
+  const [isSound, setIsSound] = useState(true);
 
-  const spinSound = new Audio('/assets/ball-sound-2.mp3');
-  spinSound.volume = spinSoundVolume;
+  const winAmount = gameStore.winAmount;
 
-  const musicSound = new Audio('/assets/game-music-1.mp3');
-  musicSound.volume = musicVolume;
-  musicSound.loop = true;
+  const spinSound = useMemo(() => {
+    const sound = new Audio('/assets/ball-sound-2.mp3');
+    sound.volume = spinSoundVolume;
+    return sound;
+  }, [spinSoundVolume]);
 
-  const winSound = new Audio('/assets/player-wins-sound.mp3');
-  winSound.volume = musicVolume;
+  const musicSound = useMemo(() => {
+    const sound = new Audio('/assets/game-music-1.mp3');
+    sound.volume = musicVolume;
+    sound.loop = true;
+    return sound;
+  }, [musicVolume]);
+
+  const winSound = useMemo(() => {
+    const sound = new Audio('/assets/player-wins-sound.mp3');
+    sound.volume = winSoundVolume;
+    return sound;
+  }, [winSoundVolume]);
 
   const playSpinSound = () => {
     spinSound.play();
   };
 
   const handleSoundToggle = () => {
-    if (volume === 0) {
-      setVolume(0.5);
+    if (!isSound) {
+      setIsSound(true);
+      musicSound.volume = 0.2;
       spinSound.volume = 0.5;
-      return;
+      winSound.volume = 0.5;
     } else {
-      setVolume(0);
+      setIsSound(false);
+      musicSound.volume = 0;
       spinSound.volume = 0;
+      winSound.volume = 0;
     }
   };
 
@@ -64,23 +78,22 @@ const Roulette: React.FC = observer(() => {
   };
 
   useEffect(() => {
-    if (gameStore.winAmount !== null) {
+    if (winAmount !== null) {
       setTimeout(() => {
         winSound.play();
         setShowWinMessage(true);
-        setDisplayedWinAmount(gameStore.winAmount);
+        setDisplayedWinAmount(winAmount);
       }, 16000);
     }
-  }, [gameStore.winAmount]);
+  }, [winAmount, winSound]);
 
   useEffect(() => {
-    musicSound.play();
-
-    return () => {
+    if (isSound) {
+      musicSound.play();
+    } else {
       musicSound.pause();
-      musicSound.currentTime = 0;
-    };
-  }, []);
+    }
+  }, [isSound, musicSound]);
 
   return (
     <div className={styles.root}>
@@ -101,16 +114,20 @@ const Roulette: React.FC = observer(() => {
             showWinMessage ? styles.showMessage : ''
           }`}
         >
-          You won ${gameStore.winAmount}
+          You won ${winAmount}
         </div>
       )}
-      <div className={styles.win}>
+      {/* <div className={styles.win}>
         Win:{' '}
         <span>${displayedWinAmount !== null ? displayedWinAmount : 0}</span>
-      </div>
+      </div> */}
+      <MoneyElement
+        name={'Win'}
+        amount={displayedWinAmount !== null ? displayedWinAmount : 0}
+      />
       <SpinButton handleClick={handleSpin} />
       <ResetButton handleClick={removeBets} />
-      <SoundOptionsButton volume={volume} handleClick={handleSoundToggle} />
+      <SoundOptionsButton volume={isSound} handleClick={handleSoundToggle} />
       <div
         className={`${styles.message} ${
           showResetMessage ? styles.showMessage : ''

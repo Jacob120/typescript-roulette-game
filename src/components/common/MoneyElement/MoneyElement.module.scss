@@ -1,14 +1,6 @@
 @import '../../../styles/settings.scss';
 
-.root {
-  display: flex;
-  justify-content: flex-end;
-  gap: 2rem;
-  width: 100%;
-  align-self: flex-end;
-}
-
-.totalBet {
+.wrapper {
   margin-top: $base-size * 2;
   color: $text-color-gold;
   font-size: $base-size;
@@ -16,7 +8,7 @@
   background: $coin-selector-bg;
   padding: 10px 20px;
   border-radius: 20px;
-
+  min-width: 180px;
   span {
     color: $text-color-white;
   }

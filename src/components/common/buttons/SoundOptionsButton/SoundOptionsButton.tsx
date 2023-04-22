@@ -3,7 +3,7 @@ import styles from './SoundOptionsButton.module.scss';
 import { RxSpeakerLoud, RxSpeakerOff } from 'react-icons/rx';
 
 interface SoundOptionsButtonProps {
-  volume: number;
+  volume: boolean;
   handleClick: () => void;
 }
 
@@ -13,7 +13,7 @@ const SoundOptionsButton: React.FC<SoundOptionsButtonProps> = ({
 }) => {
   return (
     <button onClick={handleClick} className={styles.reset_button}>
-      {volume === 0 ? (
+      {!volume ? (
         <RxSpeakerOff className={styles.reset_icon} />
       ) : (
         <RxSpeakerLoud className={styles.reset_icon} />

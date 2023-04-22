@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import styles from './BettingTable.module.scss';
 import { observer } from 'mobx-react-lite';
 import { gameStore } from '../../../stores/gameStore';
@@ -8,6 +8,11 @@ import coinStyles from '../../common/buttons/Coin/Coin.module.scss';
 const BettingTable: React.FC = observer(() => {
   const winningNumber = gameStore.winningNumber;
   const [showWinningNumber, setShowWinningNumber] = useState(false);
+
+  const coinSound = useMemo(() => {
+    const sound = new Audio('/assets/coin-sound-3.mp3');
+    return sound;
+  }, []);
 
   useEffect(() => {
     if (winningNumber !== null) {
@@ -19,24 +24,28 @@ const BettingTable: React.FC = observer(() => {
   }, [winningNumber]);
 
   const onDozenClick = (dozen: number) => {
+    coinSound.play();
     gameStore.addDozen(dozen);
     gameStore.placeDozenBet(dozen);
     gameStore.winningNumber = null;
   };
 
   const onHalfClick = (half: string) => {
+    coinSound.play();
     gameStore.addHalf(half);
     gameStore.placeHalfBet(half);
     gameStore.winningNumber = null;
   };
 
   const onRowClick = (row: number) => {
+    coinSound.play();
     gameStore.addRow(row);
     gameStore.placeRowBet(row);
     gameStore.winningNumber = null;
   };
 
   const onNumberClick = (number: number) => {
+    coinSound.play();
     gameStore.addNumber(number);
     gameStore.placeNumberBet(number);
     gameStore.winningNumber = null;
