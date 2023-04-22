@@ -7,17 +7,3 @@
   width: 100%;
   align-self: flex-end;
 }
-
-.totalBet {
-  margin-top: $base-size * 2;
-  color: $text-color-gold;
-  font-size: $base-size;
-  font-weight: 600;
-  background: $coin-selector-bg;
-  padding: 10px 20px;
-  border-radius: 20px;
-
-  span {
-    color: $text-color-white;
-  }
-}

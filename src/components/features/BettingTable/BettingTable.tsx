@@ -27,28 +27,24 @@ const BettingTable: React.FC = observer(() => {
     coinSound.play();
     gameStore.addDozen(dozen);
     gameStore.placeDozenBet(dozen);
-    gameStore.winningNumber = null;
   };
 
   const onHalfClick = (half: string) => {
     coinSound.play();
     gameStore.addHalf(half);
     gameStore.placeHalfBet(half);
-    gameStore.winningNumber = null;
   };
 
   const onRowClick = (row: number) => {
     coinSound.play();
     gameStore.addRow(row);
     gameStore.placeRowBet(row);
-    gameStore.winningNumber = null;
   };
 
   const onNumberClick = (number: number) => {
     coinSound.play();
     gameStore.addNumber(number);
     gameStore.placeNumberBet(number);
-    gameStore.winningNumber = null;
   };
 
   const renderBetCoin = (
@@ -56,7 +52,7 @@ const BettingTable: React.FC = observer(() => {
     value: number | string
   ): JSX.Element | null => {
     const betAmount = gameStore.getBetAmount(type, value);
-
+    console.log('betAmount', betAmount);
     if (betAmount > 0) {
       const betColor = gameStore.getColorByValue(betAmount);
 

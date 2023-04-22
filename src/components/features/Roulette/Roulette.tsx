@@ -69,6 +69,8 @@ const Roulette: React.FC = observer(() => {
   };
 
   const handleSpin = () => {
+    if (gameStore.spinning) return;
+
     setShowWheel(true);
     playSpinSound();
     gameStore.spinRoulette();

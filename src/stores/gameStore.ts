@@ -20,6 +20,7 @@ class GameStore {
   winAmount: number | null = null;
   resultsHistory: number[] = [];
   winningNumber: number | null = null;
+  spinning: boolean = false;
 
   constructor() {
     makeAutoObservable(this, {
@@ -125,11 +126,14 @@ class GameStore {
   }
 
   spinRoulette() {
+    this.spinning = true;
     const winningNumber = Math.floor(Math.random() * 37);
 
     setTimeout(() => {
       this.resultsHistory = [winningNumber, ...this.resultsHistory.slice(0, 4)];
-    }, 13000);
+      this.spinning = false;
+      this.clearBets();
+    }, 14000);
 
     const { winStatus, winAmount } = this.checkWinningNumber(winningNumber);
     this.winAmount = winStatus ? winAmount : null;
@@ -137,9 +141,13 @@ class GameStore {
     return (this.winningNumber = winningNumber);
   }
 
+  clearBets() {
+    this.bets = [];
+  }
+
   checkWinningNumber(winningNumber: number) {
     const isEven = winningNumber % 2 === 0;
-    console.log('bet', this.bets);
+
     let winAmount = 0;
     let winStatus = false;
 
@@ -188,7 +196,7 @@ class GameStore {
           break;
       }
     }
-    this.bets = [];
+
     return { winStatus, winAmount };
   }
 }
