@@ -90,11 +90,11 @@ const RouletteWheel: React.FC<RouletteWheelProps> = ({
     ) => {
       const endRotation = getRotationFromNumber(number) % 360;
       const randomOffset = Math.random() * 360;
-      const wheelRotationDuration = 12; // seconds
-      const ballRotationDuration = 12;
+      const wheelRotationDuration = 14; // seconds
+      const ballRotationDuration = 14;
 
       const wheelEndRotation = endRotation * -1 - 360 * 4 - randomOffset;
-      const ballEndRotation = 360 * 4 - randomOffset;
+      const ballEndRotation = 360 * 8 - randomOffset;
 
       gsap.to(wheel, {
         pixi: { rotation: wheelEndRotation },
@@ -111,21 +111,23 @@ const RouletteWheel: React.FC<RouletteWheelProps> = ({
       // Change ball anchor during the spin
       setTimeout(() => {
         changeBallAnchor(ball, 0.5, 1);
-      }, 8000);
+      }, 11000);
 
       // Animate bouncing of the ball
       const bounceTimeline = gsap.timeline({
-        delay: 10,
+        delay: 12,
       });
 
       bounceTimeline
         .to(ball.scale, { x: 0.1, y: 0.1, duration: 0.4 })
         .to(ball.scale, { x: 0.08, y: 0.08, duration: 0.1 })
-        .to(ball.scale, { x: 0.12, y: 0.12, duration: 0.4 })
-        .to(ball.scale, { x: 0.08, y: 0.08, duration: 0.1 })
         .to(ball.scale, { x: 0.1, y: 0.1, duration: 0.3 })
         .to(ball.scale, { x: 0.08, y: 0.08, duration: 0.1 })
-        .to(ball.scale, { x: 0.1, y: 0.1, duration: 0.3 })
+        .to(ball.scale, { x: 0.1, y: 0.1, duration: 0.1 })
+        .to(ball.scale, { x: 0.08, y: 0.08, duration: 0.1 })
+        .to(ball.scale, { x: 0.1, y: 0.1, duration: 0.1 })
+        .to(ball.scale, { x: 0.08, y: 0.08, duration: 0.1 })
+        .to(ball.scale, { x: 0.1, y: 0.1, duration: 0.1 })
         .to(ball.scale, { x: 0.08, y: 0.08, duration: 0.1 });
     },
     [getRotationFromNumber]
@@ -169,7 +171,7 @@ const RouletteWheel: React.FC<RouletteWheelProps> = ({
       stationaryWheel.addChild(imgArr[0]);
 
       const ball = new Sprite(textures['ball']);
-      ball.anchor.set(4.7);
+      ball.anchor.set(6.2);
       ball.scale.set(0.08);
       ball.position.set(width / 2, height / 4);
       ballRef.current = ball;

@@ -13,7 +13,7 @@ const TopBar: React.FC<TopBarProps> = ({ isListVisible }) => {
     <div className='container'>
       <div className={styles.wrapper}>
         <Logo />
-        <WinningNumbers />
+        {isListVisible && <WinningNumbers />}
         {isListVisible && <PayoutsList />}
       </div>
     </div>
