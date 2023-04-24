@@ -45,7 +45,7 @@
 
 .numberedCell {
   @extend .cell;
-  &.even {
+  &.black {
     background-color: $cell-color-black;
     &:hover {
       background-image: linear-gradient(
@@ -60,7 +60,7 @@
         );
     }
   }
-  &.odd {
+  &.red {
     background-color: $cell-color-red;
     &:hover {
       background-image: linear-gradient(
@@ -211,4 +211,48 @@
   border: 10px solid $main-color;
   border-radius: 50%;
   box-shadow: 0 0 25px rgb(108, 231, 70);
+}
+
+.verticalBoard {
+  transform: rotate(90deg);
+}
+
+@media (max-width: 1500px) {
+  .root {
+    scale: 0.9;
+  }
+}
+
+@media (max-width: 1300px) {
+  .root {
+    scale: 0.8;
+  }
+}
+
+@media (max-width: 1150px) {
+  .root {
+    scale: 0.7;
+  }
+}
+
+@media (max-width: 1060px) {
+  .root {
+    scale: 1;
+  }
+
+  .board_cells,
+  .dozens,
+  .halves {
+    height: auto;
+  }
+}
+
+@media (max-width: 868px) {
+  .dozens {
+    height: 160px;
+  }
+
+  .halves {
+    height: 160px;
+  }
 }

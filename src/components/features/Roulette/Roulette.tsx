@@ -4,7 +4,7 @@ import { gameStore } from '../../../stores/gameStore';
 import { observer } from 'mobx-react-lite';
 import SpinButton from '../../common/buttons/SpinButton/SpinButton';
 import ResetButton from '../../common/buttons/ResetButton/ResetButton';
-import RouletteWheel from './RouletteWheel';
+import RouletteWheel from '../RouletteWheel/RouletteWheel';
 import SoundOptionsButton from '../../common/buttons/SoundOptionsButton/SoundOptionsButton';
 import MoneyElement from '../../common/MoneyElement/MoneyElement';
 
@@ -70,7 +70,7 @@ const Roulette: React.FC = observer(() => {
 
   const handleSpin = () => {
     if (gameStore.spinning) return;
-
+    setDisplayedWinAmount(0);
     setShowWheel(true);
     playSpinSound();
     gameStore.spinRoulette();
@@ -80,14 +80,15 @@ const Roulette: React.FC = observer(() => {
   };
 
   useEffect(() => {
-    if (winAmount !== null) {
+    if (winAmount !== null && gameStore.winningNumber !== null) {
+      setShowWinMessage(false);
       setTimeout(() => {
         winSound.play();
         setShowWinMessage(true);
         setDisplayedWinAmount(winAmount);
       }, 16000);
     }
-  }, [winAmount, winSound]);
+  }, [gameStore.winningNumber, winAmount, winSound]);
 
   useEffect(() => {
     if (isSound) {
@@ -112,26 +113,40 @@ const Roulette: React.FC = observer(() => {
       )}
       {showWinMessage && (
         <div
-          className={`${styles.win_message} ${
+          className={`${styles.message_wrapper} ${
             showWinMessage ? styles.showMessage : ''
           }`}
         >
-          You won ${winAmount}
+          <div className={styles.message_container}>
+            <img
+              src='/assets/images/Golden-3D-Dollar-Sign.svg'
+              alt='Roulette table'
+              width={250}
+              height={250}
+            />
+            <p className={styles.win_message}>You win!</p>
+            <p className={styles.win_amount}>${winAmount}</p>
+          </div>
         </div>
       )}
-      {/* <div className={styles.win}>
-        Win:{' '}
-        <span>${displayedWinAmount !== null ? displayedWinAmount : 0}</span>
-      </div> */}
       <MoneyElement
         name={'Win'}
         amount={displayedWinAmount !== null ? displayedWinAmount : 0}
       />
-      <SpinButton handleClick={handleSpin} />
-      <ResetButton handleClick={removeBets} />
-      <SoundOptionsButton volume={isSound} handleClick={handleSoundToggle} />
+      <div className={styles.button_wrapper}>
+        <p>Spin</p>
+        <SpinButton handleClick={handleSpin} />
+      </div>
+      <div className={styles.button_wrapper}>
+        <p>Reset</p>
+        <ResetButton handleClick={removeBets} />
+      </div>
+      <div className={styles.button_wrapper}>
+        <p>Toggle Sound</p>
+        <SoundOptionsButton volume={isSound} handleClick={handleSoundToggle} />
+      </div>
       <div
-        className={`${styles.message} ${
+        className={`${styles.reset_message} ${
           showResetMessage ? styles.showMessage : ''
         }`}
       >

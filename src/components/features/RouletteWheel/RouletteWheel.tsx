@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useCallback, useMemo } from 'react';
 import { Application, Container, Sprite } from 'pixi.js';
 import * as PIXI from 'pixi.js';
-import { assetsManager } from './assets';
+import { assetsManager } from '../Roulette/assets';
 import { gsap } from 'gsap';
 import { PixiPlugin } from 'gsap/PixiPlugin';
 
@@ -105,7 +105,7 @@ const RouletteWheel: React.FC<RouletteWheelProps> = ({
       gsap.to(ballContainer, {
         pixi: { rotation: ballEndRotation },
         duration: ballRotationDuration,
-        ease: 'power1.out',
+        ease: 'sine',
       });
 
       // Change ball anchor during the spin

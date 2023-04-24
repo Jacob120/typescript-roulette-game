@@ -127,7 +127,8 @@ class GameStore {
 
   spinRoulette() {
     this.spinning = true;
-    const winningNumber = Math.floor(Math.random() * 37);
+    // const winningNumber = Math.floor(Math.random() * 37);
+    const winningNumber = 0;
 
     setTimeout(() => {
       this.resultsHistory = [winningNumber, ...this.resultsHistory.slice(0, 4)];
@@ -151,6 +152,13 @@ class GameStore {
     let winAmount = 0;
     let winStatus = false;
 
+    const redNumbers = [
+      1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36,
+    ];
+
+    const isRed = redNumbers.includes(winningNumber);
+    const isBlack = !isRed && winningNumber !== 0;
+
     for (const bet of this.bets) {
       switch (bet.type) {
         case 'number':
@@ -171,14 +179,15 @@ class GameStore {
           break;
         case 'half':
           if (
-            (bet.value === '1to18' && winningNumber <= 18) ||
-            (bet.value === '19to36' &&
-              winningNumber >= 19 &&
-              winningNumber <= 36) ||
-            (bet.value === 'EVEN' && isEven) ||
-            (bet.value === 'ODD' && !isEven) ||
-            (bet.value === 'RED' && !isEven) ||
-            (bet.value === 'BLACK' && isEven)
+            winningNumber !== 0 &&
+            ((bet.value === '1to18' && winningNumber <= 18) ||
+              (bet.value === '19to36' &&
+                winningNumber >= 19 &&
+                winningNumber <= 36) ||
+              (bet.value === 'EVEN' && isEven) ||
+              (bet.value === 'ODD' && !isEven) ||
+              (bet.value === 'RED' && isRed) ||
+              (bet.value === 'BLACK' && isBlack))
           ) {
             this.playerMoney += bet.amount * 2;
             winAmount += bet.amount * 2;

@@ -4,8 +4,12 @@ import { observer } from 'mobx-react-lite';
 import { gameStore } from '../../../stores/gameStore';
 import Coin from '../../common/buttons/Coin/Coin';
 import coinStyles from '../../common/buttons/Coin/Coin.module.scss';
+import { useWindowDimensions } from '../../../utils/useWindowDimensions';
 
 const BettingTable: React.FC = observer(() => {
+  const { width } = useWindowDimensions();
+  const [isVertical, setIsVertical] = useState(false);
+
   const winningNumber = gameStore.winningNumber;
   const [showWinningNumber, setShowWinningNumber] = useState(false);
 
@@ -15,11 +19,19 @@ const BettingTable: React.FC = observer(() => {
   }, []);
 
   useEffect(() => {
+    if (width <= 1060) {
+      setIsVertical(true);
+    } else {
+      setIsVertical(false);
+    }
+  }, [width]);
+
+  useEffect(() => {
     if (winningNumber !== null) {
       setShowWinningNumber(false);
       setTimeout(() => {
         setShowWinningNumber(true);
-      }, 13000); // Set your desired delay time in milliseconds
+      }, 14000);
     }
   }, [winningNumber]);
 
@@ -52,7 +64,7 @@ const BettingTable: React.FC = observer(() => {
     value: number | string
   ): JSX.Element | null => {
     const betAmount = gameStore.getBetAmount(type, value);
-    console.log('betAmount', betAmount);
+
     if (betAmount > 0) {
       const betColor = gameStore.getColorByValue(betAmount);
 
@@ -71,6 +83,14 @@ const BettingTable: React.FC = observer(() => {
     return null;
   };
 
+  const isRed = (number: number): boolean => {
+    const redNumbers = [
+      1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36,
+    ];
+
+    return redNumbers.includes(number);
+  };
+
   const renderNumberCells = (): JSX.Element[] => {
     const cells = [];
 
@@ -79,13 +99,13 @@ const BettingTable: React.FC = observer(() => {
       for (let row = 3; row >= 1; row--) {
         // Calculate the number for the cell
         const number = (col - 1) * 3 + row;
-        const isEven = number % 2 === 0;
+        const red = isRed(number);
 
         cells.push(
           <div
             key={number}
             className={`${styles.numberedCell} ${
-              isEven ? styles.even : styles.odd
+              red ? styles.red : styles.black
             }`}
             style={{ gridColumn: col, gridRow: 4 - row }}
             onClick={() => onNumberClick(number)}
@@ -105,9 +125,11 @@ const BettingTable: React.FC = observer(() => {
   };
 
   return (
-    <div className={styles.root}>
+    <div
+      className={`${styles.root}  ${isVertical ? styles.verticalBoard : ''}`}
+    >
       <div className={styles.wrapper}>
-        <div className={styles.board}>
+        <div className={`${styles.board}`}>
           <div className={styles.zeroCell} onClick={() => onNumberClick(0)}>
             {renderBetCoin('number', 0)}0
           </div>

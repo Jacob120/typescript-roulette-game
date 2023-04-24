@@ -1,5 +1,13 @@
 .wrapper {
   display: flex;
   justify-content: space-between;
-  width: 80%;
+  align-items: center;
+  width: 90%;
+  margin: 0 auto;
+}
+
+@media (max-width: 868px) {
+  .wrapper {
+    scale: 0.8;
+  }
 }

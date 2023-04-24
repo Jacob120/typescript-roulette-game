@@ -25,7 +25,7 @@
   }
 }
 
-.message {
+.reset_message {
   position: absolute;
   bottom: 200px;
   right: 100px;
@@ -35,7 +35,6 @@
   font-size: $base-size * 2;
   font-weight: 600;
   color: $text-color-green;
-
   text-shadow: 5px 4px 4px rgba(0, 0, 0, 0.3);
 }
 
@@ -52,25 +51,66 @@
   border-radius: 10px;
 }
 
-.win_message {
+.button_wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  p {
+    font-weight: 600;
+    opacity: 0.5;
+  }
+}
+
+.message_wrapper {
   position: absolute;
-  bottom: 18%;
-  right: 15%;
-  transform: translate(-50%, -50%);
+  top: 55%;
+  right: 6%;
+  transition: all 0.5s ease;
   font-size: 30px;
   font-weight: 600;
-  color: $text-color-green;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.message_container {
+  width: 250px;
+  height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.win_message {
+  position: absolute;
+  top: 25%;
+  min-width: 100px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 600;
+  color: $text-color-white;
+  text-shadow: 5px 4px 4px rgba(0, 0, 0, 0.3);
+  background: $coin-selector-bg;
+  padding: 0px 20px;
+  border-radius: 20px;
+}
+
+.win_amount {
+  position: absolute;
+  min-width: 200px;
+  text-align: center;
+  font-size: 30px;
+  font-weight: 600;
   text-shadow: 5px 4px 4px rgba(0, 0, 0, 0.3);
   background: $coin-selector-bg;
   color: $text-color-gold;
-  padding: 10px 20px;
+  padding: 0px 20px;
   border-radius: 20px;
-  transform: translateY(0);
-  animation: slideInFadeOut 3s ease forwards;
 }
 
 .showMessage {
-  animation: slideUpFadeOut 2s forwards;
+  animation: slideUpFadeOut 3s forwards;
 }
 
 @keyframes slideUpFadeOut {

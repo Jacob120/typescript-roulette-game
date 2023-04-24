@@ -5,7 +5,6 @@
   color: $text-color-white;
   font-size: $base-size;
   font-weight: bold;
-  position: fixed;
   right: $base-size * 2;
   top: 2rem;
 }
@@ -17,6 +16,7 @@
   transition: max-height 0.3s ease-in-out;
   background-color: $bg-dark-transparent;
   border-radius: 10px;
+  position: fixed;
 }
 
 .visible {
