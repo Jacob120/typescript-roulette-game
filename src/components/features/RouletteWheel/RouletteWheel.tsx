@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useCallback, useMemo } from 'react';
 import { Application, Container, Sprite } from 'pixi.js';
 import * as PIXI from 'pixi.js';
-import { assetsManager } from '../Roulette/assets';
+import { assetsManager } from './assets';
 import { gsap } from 'gsap';
 import { PixiPlugin } from 'gsap/PixiPlugin';
 
@@ -17,6 +17,7 @@ const RouletteWheel: React.FC<RouletteWheelProps> = ({
   winningNumber,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const spritesLoadedRef = useRef(false);
 
   const rouletteWheelNumbers = useMemo(
     () => [
@@ -159,6 +160,10 @@ const RouletteWheel: React.FC<RouletteWheelProps> = ({
     app.stage.addChild(ballContainer);
 
     const loadSprites = async () => {
+      if (spritesLoadedRef.current) {
+        return;
+      }
+
       const textures = await assetsManager();
 
       const imgArr: Sprite[] = [];
@@ -176,6 +181,8 @@ const RouletteWheel: React.FC<RouletteWheelProps> = ({
       ball.position.set(width / 2, height / 4);
       ballRef.current = ball;
       ballContainer.addChild(ball);
+
+      spritesLoadedRef.current = true;
     };
 
     loadSprites().then(() => {

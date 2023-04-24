@@ -15,9 +15,9 @@ const Roulette: React.FC = observer(() => {
   const [spinSoundVolume, setSpinSoundVolume] = useState(0.5); // eslint-disable-line
   const [musicVolume, setMusicVolume] = useState(0.2); // eslint-disable-line
   const [winSoundVolume, setWinSoundVolume] = useState(0.5); // eslint-disable-line
-  const [displayedWinAmount, setDisplayedWinAmount] = useState<number | null>(
-    null
-  );
+  // const [displayedWinAmount, setDisplayedWinAmount] = useState<number | null>(
+  //   null
+  // );
   const [isSound, setIsSound] = useState(true);
 
   const winAmount = gameStore.winAmount;
@@ -50,13 +50,9 @@ const Roulette: React.FC = observer(() => {
     if (!isSound) {
       setIsSound(true);
       musicSound.volume = 0.2;
-      spinSound.volume = 0.5;
-      winSound.volume = 0.5;
     } else {
       setIsSound(false);
       musicSound.volume = 0;
-      spinSound.volume = 0;
-      winSound.volume = 0;
     }
   };
 
@@ -71,7 +67,7 @@ const Roulette: React.FC = observer(() => {
 
   const handleSpin = () => {
     if (gameStore.spinning) return;
-    setDisplayedWinAmount(0);
+    gameStore.winAmount = 0;
     setShowWheel(true);
     playSpinSound();
     gameStore.spinRoulette();
@@ -86,14 +82,14 @@ const Roulette: React.FC = observer(() => {
       setTimeout(() => {
         winSound.play();
         setShowWinMessage(true);
-        setDisplayedWinAmount(winAmount);
+        // setDisplayedWinAmount(winAmount);
       }, 16000);
     }
   }, [winningNumber, winAmount, winSound]);
 
   useEffect(() => {
     if (isSound) {
-      musicSound.play();
+      // musicSound.play();
     } else {
       musicSound.pause();
     }
@@ -130,10 +126,7 @@ const Roulette: React.FC = observer(() => {
           </div>
         </div>
       )}
-      <MoneyElement
-        name={'Win'}
-        amount={displayedWinAmount !== null ? displayedWinAmount : 0}
-      />
+
       <div className={styles.button_wrapper}>
         <p>Spin</p>
         <SpinButton handleClick={handleSpin} />
@@ -143,7 +136,7 @@ const Roulette: React.FC = observer(() => {
         <ResetButton handleClick={removeBets} />
       </div>
       <div className={styles.button_wrapper}>
-        <p>Toggle Sound</p>
+        <p>Music</p>
         <SoundOptionsButton volume={isSound} handleClick={handleSoundToggle} />
       </div>
       <div
