@@ -127,8 +127,7 @@ class GameStore {
 
   spinRoulette() {
     this.spinning = true;
-    // const winningNumber = Math.floor(Math.random() * 37);
-    const winningNumber = 0;
+    const winningNumber = Math.floor(Math.random() * 37);
 
     setTimeout(() => {
       this.resultsHistory = [winningNumber, ...this.resultsHistory.slice(0, 4)];

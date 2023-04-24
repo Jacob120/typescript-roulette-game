@@ -21,6 +21,7 @@ const Roulette: React.FC = observer(() => {
   const [isSound, setIsSound] = useState(true);
 
   const winAmount = gameStore.winAmount;
+  const winningNumber = gameStore.winningNumber;
 
   const spinSound = useMemo(() => {
     const sound = new Audio('/assets/ball-sound-2.mp3');
@@ -80,7 +81,7 @@ const Roulette: React.FC = observer(() => {
   };
 
   useEffect(() => {
-    if (winAmount !== null && gameStore.winningNumber !== null) {
+    if (winAmount !== null && winningNumber !== null) {
       setShowWinMessage(false);
       setTimeout(() => {
         winSound.play();
@@ -88,7 +89,7 @@ const Roulette: React.FC = observer(() => {
         setDisplayedWinAmount(winAmount);
       }, 16000);
     }
-  }, [gameStore.winningNumber, winAmount, winSound]);
+  }, [winningNumber, winAmount, winSound]);
 
   useEffect(() => {
     if (isSound) {
