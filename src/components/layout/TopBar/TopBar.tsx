@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Logo from '../../common/Logo/Logo';
 import PayoutsList from '../../common/PayoutsList/PayoutsList';
 import styles from './TopBar.module.scss';
