@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './BalanceAndBet.module.scss';
 import { gameStore } from '../../../stores/gameStore';
 import { observer } from 'mobx-react-lite';
