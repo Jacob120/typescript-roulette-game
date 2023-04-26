@@ -11,6 +11,7 @@
   width: auto;
   align-items: center;
   height: 580px;
+  z-index: 0;
 }
 
 .board_cells {
@@ -207,8 +208,7 @@
 
 .betCoin {
   position: absolute;
-
-  z-index: 50;
+  z-index: 10;
 }
 
 .winningNumber {
@@ -221,8 +221,11 @@
 
 @media (max-width: 768px) {
   .betCoin {
+    position: absolute;
+
     scale: 0.5;
     height: fit-content;
+    z-index: 10;
     margin: 0;
   }
 

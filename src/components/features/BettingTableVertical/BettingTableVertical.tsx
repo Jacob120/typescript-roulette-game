@@ -1,4 +1,3 @@
-// BettingTableVertical.tsx
 import React, { useState, useEffect, useMemo } from 'react';
 import styles from './BettingTableVertical.module.scss';
 import { observer } from 'mobx-react-lite';
