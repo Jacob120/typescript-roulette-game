@@ -159,9 +159,8 @@
     position: fixed;
     top: -300px;
     right: 0;
-    z-index: 100;
+    z-index: 99;
     background-color: rgba(0, 0, 0, 0.5);
-
     border-radius: 10px;
     display: flex;
     justify-content: center;
@@ -170,6 +169,7 @@
 
   .canvas_wrapper {
     scale: 0.7;
+    z-index: 99;
   }
 
   .message_wrapper {

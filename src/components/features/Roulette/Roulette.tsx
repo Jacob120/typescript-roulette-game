@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import styles from './Roulette.module.scss';
 import { gameStore } from '../../../stores/gameStore';
 import { observer } from 'mobx-react-lite';
@@ -21,6 +21,7 @@ const Roulette: React.FC<RouletteProps> = observer(({ isVertical, width }) => {
   const [winSoundVolume, setWinSoundVolume] = useState(0.5); //eslint-disable-line
 
   const [isSound, setIsSound] = useState(true);
+  const initialLoad = useRef(true);
 
   const winAmount = gameStore.winAmount;
   const winningNumber = gameStore.winningNumber;
@@ -91,7 +92,10 @@ const Roulette: React.FC<RouletteProps> = observer(({ isVertical, width }) => {
   }, [winningNumber, winAmount, winSound]);
 
   useEffect(() => {
-    musicSound.play();
+    if (initialLoad.current) {
+      musicSound.play();
+      initialLoad.current = false;
+    }
   }, [musicSound]);
 
   return (
