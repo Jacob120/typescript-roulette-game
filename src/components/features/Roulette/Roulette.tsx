@@ -92,7 +92,7 @@ const Roulette: React.FC<RouletteProps> = observer(({ isVertical, width }) => {
 
   useEffect(() => {
     musicSound.play();
-  }, []);
+  }, [musicSound]);
 
   return (
     <div className={styles.root}>
