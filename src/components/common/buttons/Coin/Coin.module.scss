@@ -81,3 +81,9 @@
     transform: scale(0.6);
   }
 }
+
+@media (max-width: 768px) {
+  .smallCoin {
+    font-size: $base-size * 2;
+  }
+}

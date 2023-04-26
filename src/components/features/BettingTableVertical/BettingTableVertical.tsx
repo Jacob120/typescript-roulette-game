@@ -1,30 +1,20 @@
+// BettingTableVertical.tsx
 import React, { useState, useEffect, useMemo } from 'react';
-import styles from './BettingTable.module.scss';
+import styles from './BettingTableVertical.module.scss';
 import { observer } from 'mobx-react-lite';
 import { gameStore } from '../../../stores/gameStore';
 import Coin from '../../common/buttons/Coin/Coin';
 import coinStyles from '../../common/buttons/Coin/Coin.module.scss';
-import { useWindowDimensions } from '../../../utils/useWindowDimensions';
 
-const BettingTable: React.FC = observer(() => {
-  const { width } = useWindowDimensions();
-  const [isVertical, setIsVertical] = useState(false);
-  const isSpinning = gameStore.spinning;
+const BettingTableVertical: React.FC = observer(() => {
   const winningNumber = gameStore.winningNumber;
   const [showWinningNumber, setShowWinningNumber] = useState(false);
+  const isSpinning = gameStore.spinning;
 
   const coinSound = useMemo(() => {
     const sound = new Audio('/assets/coin-sound-3.mp3');
     return sound;
   }, []);
-
-  useEffect(() => {
-    if (width <= 1060) {
-      setIsVertical(true);
-    } else {
-      setIsVertical(false);
-    }
-  }, [width]);
 
   useEffect(() => {
     if (winningNumber !== null) {
@@ -66,7 +56,6 @@ const BettingTable: React.FC = observer(() => {
       gameStore.placeNumberBet(number);
     }
   };
-
   const renderBetCoin = (
     type: 'number' | 'dozen' | 'half' | 'row',
     value: number | string
@@ -103,8 +92,8 @@ const BettingTable: React.FC = observer(() => {
     const cells = [];
 
     // Populate the cells array with the number cells
-    for (let col = 1; col <= 12; col++) {
-      for (let row = 3; row >= 1; row--) {
+    for (let row = 1; row <= 3; row++) {
+      for (let col = 1; col <= 12; col++) {
         // Calculate the number for the cell
         const number = (col - 1) * 3 + row;
         const red = isRed(number);
@@ -115,7 +104,7 @@ const BettingTable: React.FC = observer(() => {
             className={`${styles.numberedCell} ${
               red ? styles.red : styles.black
             }`}
-            style={{ gridColumn: col, gridRow: 4 - row }}
+            style={{ gridColumn: row, gridRow: col }}
             onClick={() => onNumberClick(number)}
           >
             {showWinningNumber && winningNumber === number && (
@@ -133,16 +122,59 @@ const BettingTable: React.FC = observer(() => {
   };
 
   return (
-    <div
-      className={`${styles.root}  ${isVertical ? styles.verticalBoard : ''}`}
-    >
+    <div className={`${styles.root}`}>
       <div className={styles.wrapper}>
-        <div className={`${styles.board}`}>
+        <div className={styles.halves}>
+          <div onClick={() => onHalfClick('1to18')}>
+            {' '}
+            {renderBetCoin('half', '1to18')}1<br /> to
+            <br /> 18
+          </div>
+          <div onClick={() => onHalfClick('EVEN')}>
+            {' '}
+            {renderBetCoin('half', 'EVEN')}EVEN
+          </div>
+          <div className={styles.red} onClick={() => onHalfClick('RED')}>
+            {' '}
+            {renderBetCoin('half', 'RED')}
+          </div>
+          <div className={styles.black} onClick={() => onHalfClick('BLACK')}>
+            {' '}
+            {renderBetCoin('half', 'BLACK')}
+          </div>
+          <div onClick={() => onHalfClick('ODD')}>
+            {' '}
+            {renderBetCoin('half', 'ODD')}ODD
+          </div>
+          <div onClick={() => onHalfClick('19to36')}>
+            {' '}
+            {renderBetCoin('half', '19to36')}19
+            <br /> to
+            <br /> 36
+          </div>
+        </div>
+        <div className={styles.dozens}>
+          <div onClick={() => onDozenClick(1)}>
+            {renderBetCoin('dozen', 1)} 1<br /> to
+            <br /> 12
+          </div>
+          <div onClick={() => onDozenClick(2)}>
+            {renderBetCoin('dozen', 2)}13
+            <br /> to
+            <br /> 24
+          </div>
+          <div onClick={() => onDozenClick(3)}>
+            {renderBetCoin('dozen', 3)}25
+            <br /> to
+            <br /> 36
+          </div>
+        </div>
+        <div className={``}>
           <div className={styles.zeroCell} onClick={() => onNumberClick(0)}>
             {renderBetCoin('number', 0)}0
           </div>
-          <div className={styles.board_cells}>
-            {renderNumberCells()}
+          <div className={styles.board_cells}>{renderNumberCells()}</div>
+          <div className={styles.twoToOne_wrapper}>
             <div
               className={styles.twoToOneCell}
               style={{ gridColumn: 14, gridRow: 1 }}
@@ -169,46 +201,9 @@ const BettingTable: React.FC = observer(() => {
             </div>
           </div>
         </div>
-        <div className={styles.dozens}>
-          <div onClick={() => onDozenClick(1)}>
-            {renderBetCoin('dozen', 1)} 1 to 12
-          </div>
-          <div onClick={() => onDozenClick(2)}>
-            {renderBetCoin('dozen', 2)}13 to 24
-          </div>
-          <div onClick={() => onDozenClick(3)}>
-            {renderBetCoin('dozen', 3)}25 to 36
-          </div>
-        </div>
-        <div className={styles.halves}>
-          <div onClick={() => onHalfClick('1to18')}>
-            {' '}
-            {renderBetCoin('half', '1to18')}1 to 18
-          </div>
-          <div onClick={() => onHalfClick('EVEN')}>
-            {' '}
-            {renderBetCoin('half', 'EVEN')}EVEN
-          </div>
-          <div className={styles.red} onClick={() => onHalfClick('RED')}>
-            {' '}
-            {renderBetCoin('half', 'RED')}
-          </div>
-          <div className={styles.black} onClick={() => onHalfClick('BLACK')}>
-            {' '}
-            {renderBetCoin('half', 'BLACK')}
-          </div>
-          <div onClick={() => onHalfClick('ODD')}>
-            {' '}
-            {renderBetCoin('half', 'ODD')}ODD
-          </div>
-          <div onClick={() => onHalfClick('19to36')}>
-            {' '}
-            {renderBetCoin('half', '19to36')}19 to 36
-          </div>
-        </div>
       </div>
     </div>
   );
 });
 
-export default BettingTable;
+export default BettingTableVertical;

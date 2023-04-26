@@ -1,0 +1,232 @@
+@import '../../../styles/settings.scss';
+
+.root {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+
+.wrapper {
+  display: flex;
+  width: auto;
+  align-items: center;
+  height: 580px;
+}
+
+.board_cells {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(12, 1fr);
+  grid-gap: 1px;
+  width: 100%;
+  color: $text-color-white;
+  font-size: $base-size;
+  cursor: pointer;
+}
+
+.cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  height: 3rem;
+  border: 2px solid white;
+  font-weight: bold;
+  user-select: none;
+  width: 60px;
+  height: 40px;
+}
+
+.numberedCell {
+  @extend .cell;
+  &.black {
+    background-color: $cell-color-black;
+    &:hover {
+      background-image: linear-gradient(
+          to bottom right,
+          rgba(255, 255, 255, 0.5),
+          transparent 40%
+        ),
+        linear-gradient(
+          to bottom left,
+          rgba(255, 255, 255, 0.5),
+          transparent 40%
+        );
+    }
+  }
+  &.red {
+    background-color: $cell-color-red;
+    &:hover {
+      background-image: linear-gradient(
+          to bottom right,
+          rgba(255, 255, 255, 0.5),
+          transparent 40%
+        ),
+        linear-gradient(
+          to bottom left,
+          rgba(255, 255, 255, 0.5),
+          transparent 40%
+        );
+    }
+  }
+}
+
+.zeroCell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  border: 1px solid black;
+  font-weight: bold;
+  width: 100%;
+  background: $cell-color-green;
+  border: 2px solid white;
+  color: $text-color-white;
+  font-size: $base-size;
+  margin-bottom: 1px;
+  margin-top: 10px;
+  cursor: pointer;
+
+  &:hover {
+    background-image: linear-gradient(
+        to bottom right,
+        rgba(255, 255, 255, 0.5),
+        transparent 40%
+      ),
+      linear-gradient(to bottom left, rgba(255, 255, 255, 0.5), transparent 40%);
+  }
+}
+
+.twoToOne_wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 1px;
+  gap: 1px;
+  width: 100%;
+}
+
+.twoToOneCell {
+  @extend .cell;
+  display: flex;
+  color: $text-color-white;
+  font-size: $base-size;
+  grid-row: 3 / span 3;
+  background-color: transparent;
+
+  &:hover {
+    background-image: linear-gradient(
+        to bottom right,
+        rgba(255, 255, 255, 0.5),
+        transparent 40%
+      ),
+      linear-gradient(to bottom left, rgba(255, 255, 255, 0.5), transparent 40%);
+  }
+}
+
+.dozens {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  grid-gap: 1px;
+  color: $text-color-white;
+  font-size: $base-size;
+  width: 60px;
+  height: 492px;
+  margin-right: 1px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  & > div {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid white;
+
+    &:hover {
+      background-image: linear-gradient(
+          to bottom right,
+          rgba(255, 255, 255, 0.5),
+          transparent 40%
+        ),
+        linear-gradient(
+          to bottom left,
+          rgba(255, 255, 255, 0.5),
+          transparent 40%
+        );
+    }
+  }
+}
+
+.halves {
+  display: grid;
+  grid-template-columns: repeat(1, 2fr);
+  grid-template-rows: repeat(6, 2fr);
+  grid-gap: 1px;
+  color: $text-color-white;
+  font-size: $base-size;
+  height: 492px;
+  width: 60px;
+  margin-right: 1px;
+  justify-items: center;
+  cursor: pointer;
+
+  & > div {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid white;
+
+    &.red {
+      background-color: $cell-color-red;
+    }
+
+    &.black {
+      background-color: $cell-color-black;
+    }
+
+    &:hover {
+      background-image: linear-gradient(
+          to bottom right,
+          rgba(255, 255, 255, 0.5),
+          transparent 40%
+        ),
+        linear-gradient(
+          to bottom left,
+          rgba(255, 255, 255, 0.5),
+          transparent 40%
+        );
+    }
+  }
+}
+
+.betCoin {
+  position: absolute;
+
+  z-index: 50;
+}
+
+.winningNumber {
+  position: absolute;
+  padding: 25px;
+  border: 10px solid $main-color;
+  border-radius: 50%;
+  box-shadow: 0 0 25px rgb(108, 231, 70);
+}
+
+@media (max-width: 768px) {
+  .betCoin {
+    scale: 0.5;
+    height: fit-content;
+    margin: 0;
+  }
+
+  .winningNumber {
+    scale: 0.7;
+  }
+}

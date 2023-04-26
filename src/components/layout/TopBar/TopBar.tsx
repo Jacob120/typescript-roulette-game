@@ -6,16 +6,15 @@ import WinningNumbers from '../../features/WinningNumbers/WinningNumbers';
 
 interface TopBarProps {
   isListVisible: boolean;
+  isVertical: boolean;
 }
 
-const TopBar: React.FC<TopBarProps> = ({ isListVisible }) => {
+const TopBar: React.FC<TopBarProps> = ({ isListVisible, isVertical }) => {
   return (
-    <div className=''>
-      <div className={styles.wrapper}>
-        <Logo />
-        {isListVisible && <WinningNumbers />}
-        {isListVisible && <PayoutsList />}
-      </div>
+    <div className={styles.wrapper}>
+      <Logo />
+      {isListVisible && !isVertical && <WinningNumbers />}
+      {isListVisible && <PayoutsList />}
     </div>
   );
 };

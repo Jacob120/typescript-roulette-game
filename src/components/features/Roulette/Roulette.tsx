@@ -6,22 +6,25 @@ import SpinButton from '../../common/buttons/SpinButton/SpinButton';
 import ResetButton from '../../common/buttons/ResetButton/ResetButton';
 import RouletteWheel from '../RouletteWheel/RouletteWheel';
 import SoundOptionsButton from '../../common/buttons/SoundOptionsButton/SoundOptionsButton';
-import MoneyElement from '../../common/MoneyElement/MoneyElement';
 
-const Roulette: React.FC = observer(() => {
+interface RouletteProps {
+  isVertical: boolean;
+  width: number;
+}
+
+const Roulette: React.FC<RouletteProps> = observer(({ isVertical, width }) => {
   const [showResetMessage, setShowResetMessage] = useState(false);
   const [showWinMessage, setShowWinMessage] = useState(false);
   const [showWheel, setShowWheel] = useState(false);
   const [spinSoundVolume, setSpinSoundVolume] = useState(0.5); // eslint-disable-line
   const [musicVolume, setMusicVolume] = useState(0.2); // eslint-disable-line
-  const [winSoundVolume, setWinSoundVolume] = useState(0.5); // eslint-disable-line
-  // const [displayedWinAmount, setDisplayedWinAmount] = useState<number | null>(
-  //   null
-  // );
+  const [winSoundVolume, setWinSoundVolume] = useState(0.5); //eslint-disable-line
+
   const [isSound, setIsSound] = useState(true);
 
   const winAmount = gameStore.winAmount;
   const winningNumber = gameStore.winningNumber;
+  const isSpinning = gameStore.spinning;
 
   const spinSound = useMemo(() => {
     const sound = new Audio('/assets/ball-sound-2.mp3');
@@ -57,6 +60,7 @@ const Roulette: React.FC = observer(() => {
   };
 
   const removeBets = () => {
+    if (isSpinning) return;
     gameStore.bets = [];
 
     setShowResetMessage(true);
@@ -66,7 +70,7 @@ const Roulette: React.FC = observer(() => {
   };
 
   const handleSpin = () => {
-    if (gameStore.spinning) return;
+    if (isSpinning) return;
     gameStore.winAmount = 0;
     setShowWheel(true);
     playSpinSound();
@@ -82,14 +86,13 @@ const Roulette: React.FC = observer(() => {
       setTimeout(() => {
         winSound.play();
         setShowWinMessage(true);
-        // setDisplayedWinAmount(winAmount);
       }, 16000);
     }
   }, [winningNumber, winAmount, winSound]);
 
   useEffect(() => {
     if (isSound) {
-      // musicSound.play();
+      musicSound.play();
     } else {
       musicSound.pause();
     }
@@ -99,7 +102,7 @@ const Roulette: React.FC = observer(() => {
     <div className={styles.root}>
       {showWheel && (
         <div className={styles.rouletteWheelModal}>
-          <div className={styles.canvas}>
+          <div className={styles.canvas_wrapper}>
             <RouletteWheel
               width={800}
               height={750}

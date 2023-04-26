@@ -20,5 +20,5 @@ describe('GameStore', () => {
     expect(result.winAmount).toBe(35 * gameStore.selectedCoinValue);
   });
 
-  // Add more tests for other bet types, scenarios, and edge cases
+  // TODO Add more tests for other bet types, scenarios, and edge cases
 });

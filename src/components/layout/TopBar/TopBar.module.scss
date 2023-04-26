@@ -6,8 +6,13 @@
   margin: 0 auto;
 }
 
-@media (max-width: 868px) {
+@media (max-width: 768px) {
   .wrapper {
-    scale: 0.8;
+    display: flex;
+    gap: 4rem;
+    justify-content: space-around;
+    align-items: center;
+    height: 40px;
+    margin-top: 5px;
   }
 }

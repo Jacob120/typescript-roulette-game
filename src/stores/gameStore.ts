@@ -133,7 +133,7 @@ class GameStore {
       this.resultsHistory = [winningNumber, ...this.resultsHistory.slice(0, 4)];
       this.spinning = false;
       this.clearBets();
-    }, 14000);
+    }, 16000);
 
     const { winStatus, winAmount } = this.checkWinningNumber(winningNumber);
     this.winAmount = winStatus ? winAmount : null;

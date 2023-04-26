@@ -1,4 +1,3 @@
-// utils/useWindowDimensions.ts
 import { useState, useEffect } from 'react';
 
 export const useWindowDimensions = () => {
@@ -11,15 +10,24 @@ export const useWindowDimensions = () => {
   });
 
   useEffect(() => {
+    const debounceDelay = 100; // Adjust this value as needed
+    let resizeTimeout: NodeJS.Timeout;
+
     const handleResize = () => {
-      setWindowDimensions({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      });
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        setWindowDimensions({
+          width: window.innerWidth,
+          height: window.innerHeight,
+        });
+      }, debounceDelay);
     };
 
     window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      clearTimeout(resizeTimeout);
+    };
   }, []);
 
   return windowDimensions;

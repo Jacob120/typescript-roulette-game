@@ -6,6 +6,7 @@
   align-items: center;
   align-self: center;
   width: 90%;
+  height: 100%;
 }
 
 @media (max-width: 1630px) {
@@ -16,11 +17,23 @@
 
 @media (max-width: 1268px) {
   .root {
-    scale: 0.8;
-    display: flex;
+    scale: 0.7;
+    display: grid;
+    width: 100%;
+    height: 100px;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(3, 1fr);
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .bottomBarVertical {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
   }
 }

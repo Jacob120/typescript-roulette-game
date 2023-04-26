@@ -2,7 +2,7 @@
 
 .root {
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   gap: 2rem;
   color: white;
   font-size: 20px;
@@ -129,5 +129,50 @@
   100% {
     opacity: 0;
     transform: translateY(-40px);
+  }
+}
+
+@media (max-width: 786px) {
+  .root {
+    display: flex;
+    gap: 2rem;
+    color: white;
+    font-size: $base-size;
+    width: 100%;
+    justify-content: center;
+
+    align-items: center;
+    align-self: center;
+  }
+
+  .button_wrapper {
+    scale: 0.7;
+
+    p {
+      display: none;
+    }
+  }
+
+  .rouletteWheelModal {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: -300px;
+    right: 0;
+    z-index: 100;
+    background-color: rgba(0, 0, 0, 0.5);
+
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .canvas_wrapper {
+    scale: 0.7;
+  }
+
+  .message_wrapper {
+    display: none;
   }
 }
