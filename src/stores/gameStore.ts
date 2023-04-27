@@ -7,7 +7,7 @@ type Bet = {
   color?: string;
 };
 
-class GameStore {
+export class GameStore {
   selectedNumbers: number[] = [];
   selectedDozens: number[] = [];
   selectedHalves: string[] = [];
@@ -25,6 +25,9 @@ class GameStore {
   constructor() {
     makeAutoObservable(this, {
       spinRoulette: action.bound,
+      setWinAmount: action,
+      addToResultsHistory: action,
+      setSpinning: action,
     });
   }
 
@@ -130,8 +133,8 @@ class GameStore {
     const winningNumber = Math.floor(Math.random() * 37);
 
     setTimeout(() => {
-      this.resultsHistory = [winningNumber, ...this.resultsHistory.slice(0, 4)];
-      this.spinning = false;
+      this.setSpinning(false);
+      this.addToResultsHistory(winningNumber);
       this.clearBets();
     }, 16000);
 
@@ -142,7 +145,21 @@ class GameStore {
   }
 
   clearBets() {
+    const totalBetAmount = this.getTotalBetAmount();
     this.bets = [];
+    return totalBetAmount;
+  }
+
+  setWinAmount(amount: number) {
+    this.winAmount = amount;
+  }
+
+  addToResultsHistory(result: number) {
+    this.resultsHistory.push(result);
+  }
+
+  setSpinning(spinning: boolean) {
+    this.spinning = spinning;
   }
 
   checkWinningNumber(winningNumber: number) {

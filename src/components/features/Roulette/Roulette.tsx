@@ -62,7 +62,8 @@ const Roulette: React.FC<RouletteProps> = observer(({ isVertical, width }) => {
 
   const removeBets = () => {
     if (isSpinning) return;
-    gameStore.bets = [];
+    const returnedBetAmount = gameStore.clearBets();
+    gameStore.playerMoney += returnedBetAmount;
 
     setShowResetMessage(true);
     setTimeout(() => {
@@ -72,7 +73,7 @@ const Roulette: React.FC<RouletteProps> = observer(({ isVertical, width }) => {
 
   const handleSpin = () => {
     if (isSpinning) return;
-    gameStore.winAmount = 0;
+    gameStore.setWinAmount(0);
     setShowWheel(true);
     playSpinSound();
     gameStore.spinRoulette();
@@ -92,8 +93,29 @@ const Roulette: React.FC<RouletteProps> = observer(({ isVertical, width }) => {
   }, [winningNumber, winAmount, winSound]);
 
   useEffect(() => {
+    return () => {
+      musicSound.pause();
+      musicSound.currentTime = 0;
+    };
+  }, [musicSound]);
+
+  useEffect(() => {
     if (initialLoad.current) {
-      musicSound.play();
+      const playMusic = async () => {
+        try {
+          await musicSound.play();
+        } catch (error) {
+          if ((error as DOMException).name === 'NotAllowedError') {
+            const playOnInteraction = () => {
+              musicSound.play();
+              window.removeEventListener('click', playOnInteraction);
+            };
+            window.addEventListener('click', playOnInteraction);
+          }
+        }
+      };
+
+      playMusic();
       initialLoad.current = false;
     }
   }, [musicSound, initialLoad]);

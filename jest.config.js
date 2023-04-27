@@ -4,7 +4,7 @@ module.exports = {
     {
       displayName: 'browser env',
       preset: 'ts-jest',
-      testEnvironment: 'jsdom',
+      testEnvironment: 'jest-environment-jsdom',
       roots: ['<rootDir>/src/'],
     },
   ],
