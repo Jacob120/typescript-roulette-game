@@ -1,6 +1,6 @@
-# Getting Started with Create React App
+# Live demo version
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+You can try the demo version here [https://jk-roulette.netlify.app/](https://jk-roulette.netlify.app/).
 
 ## Available Scripts
 
