@@ -31,11 +31,14 @@ const WinningNumbers: React.FC = observer(() => {
         <div>
           <RxTriangleDown className={styles.arrow} />
           <div className={styles.results}>
-            {resultsHistory.map((number, index) => (
-              <div key={index} className={numberStyle(number)}>
-                {number}
-              </div>
-            ))}
+            {resultsHistory
+              .slice()
+              .reverse()
+              .map((number, index) => (
+                <div key={index} className={numberStyle(number)}>
+                  {number}
+                </div>
+              ))}
           </div>
         </div>
       )}

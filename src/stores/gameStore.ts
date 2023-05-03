@@ -155,6 +155,9 @@ export class GameStore {
   }
 
   addToResultsHistory(result: number) {
+    if (this.resultsHistory.length === 5) {
+      this.resultsHistory.shift();
+    }
     this.resultsHistory.push(result);
   }
 
