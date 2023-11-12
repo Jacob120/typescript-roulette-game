@@ -4,9 +4,9 @@ You can try the demo version here [https://jk-roulette.netlify.app/](https://jk-
 
 ![gif](https://github.com/Jacob120/typescript-roulette-game/blob/main/public/assets/images/roulette-cropped-gif.gif)
 
-# Tools and technologies used
+## Tools and technologies used
 
-Javascript, Typescript, Pixi.js, Mobx
+JavaScript, TypeScript, Pixi.js, MobX
 
 ## Available Scripts
 
