@@ -2,7 +2,7 @@
 
 You can try the demo version here [https://jk-roulette.netlify.app/](https://jk-roulette.netlify.app/).
 
-![gif](https://github.com/Jacob120/typescript-roulette-game/tree/main/public/assets/images/roulette-copped-gif.gif)
+![gif](https://github.com/Jacob120/typescript-roulette-game/blob/main/public/assets/images/roulette-cropped-gif.gif)
 
 ## Available Scripts
 
