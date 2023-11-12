@@ -2,6 +2,8 @@
 
 You can try the demo version here [https://jk-roulette.netlify.app/](https://jk-roulette.netlify.app/).
 
+![gif](https://github.com/Jacob120/typescript-roulette-game/tree/main/public/assets/images/roulette-copped-gif.gif)
+
 ## Available Scripts
 
 In the project directory, you can run:
@@ -44,4 +46,5 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
 # typescript-roulette-game
