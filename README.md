@@ -4,6 +4,10 @@ You can try the demo version here [https://jk-roulette.netlify.app/](https://jk-
 
 ![gif](https://github.com/Jacob120/typescript-roulette-game/blob/main/public/assets/images/roulette-cropped-gif.gif)
 
+# Tools and technologies used
+
+Javascript, Typescript, Pixi.js, Mobx
+
 ## Available Scripts
 
 In the project directory, you can run:
